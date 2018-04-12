@@ -6,7 +6,7 @@ In my Fend Udacity course, I had to create a memory game where upon clicked, two
 ## Installing from Source
 
 1. Clone the following repo: 
-  * git clone https://github.com/Ul1ra/MemoryGame
+  * git clone https://github.com/uthmana/MemoryGame.git
 
 2. Load index.html in browser.
 
@@ -39,7 +39,7 @@ In my Fend Udacity course, I had to create a memory game where upon clicked, two
 
 ## Author
 
-* Ul1ra: Uthman AHMAD MUHAMMAD
+*Uthman AHMAD MUHAMMAD
 
 
 ## License
