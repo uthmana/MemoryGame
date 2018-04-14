@@ -2,8 +2,7 @@
 let objects = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
 
     // set variables to Useful selectors
-    $container = $('.container'),
-    $scorePanel = $('.score-panel'),
+    
     $rating = $('.fa-star'),
     $moves = $('.moves'),
     $timer = $('.timer'),
@@ -24,19 +23,24 @@ let objects = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', '
     stars2 = 16,
     star1 = 20;
 
-// Shuffling function: enables that no two games have the same card arrangement 
-function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
+
     return array;
 }
+
+
+
 
 // The function init() enables the game to start
 function init() {
@@ -56,13 +60,17 @@ function init() {
         $deck.append($('<li class="card"><i class="fa fa-' + allCards[i] + '"></i></li>'))
     }
     addCardListener();
-
-    // Enables the timer to reset to 0 when the game is restarted
-    resetTimer(nowTime);
-    second = 0;
-    $timer.text(`${second}`)
-    initTime();
+	
+	// Enables the timer to reset to 0 when the game is restarted
+      resetTimer(nowTime);
+      second = 0;
+      $timer.text(`${second}`);
+      
+	
+   
 }
+
+
 
 // Adds a score from 1 to 3 stars depending on the amount of moves done
 function rating(moves) {
@@ -92,19 +100,30 @@ $restart.bind('click', function (confirmed) {
     }
 });
 
+
+
 // This function allows each card to be validated that is an equal match to another card that is clicked on to stay open.
 // If cards do not match, both cards are flipped back over.
 let addCardListener = function () {
-
+	 
     // With the following, the card that is clicked on is flipped
     $deck.find('.card').bind('click', function () {
+	  
+	  	if (second == 0) { // checking if timer function is running
+                second++;
+                initTime(); // timer function called
+            
+            }
+	  
+	  
         let $this = $(this);
-
+		
         if ($this.hasClass('show') || $this.hasClass('match')) { return true; }
-
+        
         let card = $this.context.innerHTML;
         $this.addClass('open show');
         allOpen.push(card);
+		
 
         // Compares cards if they matched
         if (allOpen.length > 1) {
@@ -121,6 +140,12 @@ let addCardListener = function () {
                 setTimeout(function () {
                     $deck.find('.open').removeClass('open show');
                 }, wait / 1.5);
+				
+				
+				
+			
+			
+			
             }
 
             // The allOpen array specifies all added cards facing up
@@ -134,6 +159,7 @@ let addCardListener = function () {
 
             // The number of moves are added to the modal HTML alert
             $moves.html(moves);
+			
         }
 
         // The game is finished once all cards have been matched, with a short delay
@@ -143,15 +169,18 @@ let addCardListener = function () {
             setTimeout(function () {
                 gameOver(moves, score);
             }, 500);
+			resetTimer(nowTime);
         }
+		
     });
-}
+	
+};
 
 // Initiates the timer as soon as the game is loaded
 function initTime() {
     nowTime = setInterval(function () {
-        $timer.text(`${second}`)
-        second = second + 1
+        $timer.text(`${second}`);
+        second = second + 1;
     }, 1000);
 }
 
